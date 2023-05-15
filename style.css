@@ -1,0 +1,19 @@
+main{
+display: flex;
+flex-wrap: nowrap;
+height: 100vh;
+height: -webkit-fill-available;
+max-height: 100vh;
+overflow-x: auto;
+overflow-y: hidden;
+}
+.chart {
+width: 40%;
+display: inline-block;
+}
+.dataTables_wrapper {
+width: 80%;
+}
+.toolbar {
+float: right;
+}
