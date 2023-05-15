@@ -1,13 +1,10 @@
-const fs = require('fs');
-const https = require('https');
 const {
 	getLandData
 } = require('./scraper.js');
 
 const express = require('express');
 const app = express();
-const TEST_PORT = 3000;
-const PORT = process.env.PORT || TEST_PORT;
+const PORT = process.env.PORT || 3000;
 let isScraping = false;
 
 app.use(express.json());
@@ -43,20 +40,6 @@ app.post('/getLandData', async function (req, res) {
 
 })
 
-if (PORT === TEST_PORT) {
-	app.listen(PORT, () => {
-		console.log(`HTTP server listening on port ${PORT}`)
-	})
-} else {
-	const privateKey = fs.readFileSync(process.env.KEY, 'utf8');
-	const certificate = fs.readFileSync(process.env.CERT, 'utf8');
-	const credentials = {
-		key: privateKey,
-		cert: certificate
-	};
-	const httpsServer = https.createServer(credentials, app);
-
-	httpsServer.listen(PORT, () => {
-		console.log(`HTTPS server listening on port ${PORT}`)
-	});
-}
+app.listen(PORT, () => {
+	console.log(`server listening on port ${PORT}`)
+})
