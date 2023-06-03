@@ -4,7 +4,7 @@ const getData = () => {
 	const xAxis = "cost";
 	const yAxis = "acres";
 
-	return Object.values([landData]).map((set) => {
+	return landData.map((set) => {
 
 		const data = set.filter(item => {
 
@@ -27,6 +27,13 @@ const getData = () => {
 
 	});
 }
+
+const createList = () => {
+	const data = getData();
+
+	document.querySelector("#list").innerHTML = `<ul class="list-group">${data.map(item=>`<li class="list-group-item">${item.data.length} ${item.label}</li>`).join('')}</ul>`;
+}
+
 const createChart = () => {
 
 
@@ -89,6 +96,7 @@ const createChart = () => {
 
 }
 
+const list = createList();
 const chart = createChart();
 
 const converter = (data) => {
@@ -155,9 +163,13 @@ const fetchLandData = (link) => fetch('/getLandData', {
 		loadingProgressMessage.innerText = data.error || "Data has been fetched!";
 
 		if (!data.error) {
-			localStorage.setItem("landData", JSON.stringify(converter(data.landData)));
+			let landData = JSON.parse(localStorage.getItem("landData") || '[]');
+			landData.push(converter(data.landData));
+				
+			localStorage.setItem("landData", JSON.stringify(landData));
             chart.data.datasets = getData();
             chart.update();
+			createList();
 		}
 
 	});
